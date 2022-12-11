@@ -21,12 +21,40 @@ app.get('/notes', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/notes.html'));
 });
 
+// GET request for notes
 app.get('/api/notes', (req, res) => res.json(notesData));
 
+// POST request to add a note
 app.post('/api/notes', (req, res) => {
-  console.log('got here', req.body)
+  const noteDataString = JSON.stringify(req.body);
+
+  // Obtain existing notes
+  fs.readFile('./db/db.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+    } else {
+      // Convert string into JSON object
+      const parsedNotes = JSON.parse(data);
+
+      // Add a new note
+      parsedNotes.push(req.body);
+
+      // Write updated notes back to the file
+      fs.writeFile(
+        './db/db.json',
+        JSON.stringify(parsedNotes),
+        (writeErr) =>
+          writeErr
+            ? console.error(writeErr)
+            : console.info('Successfully updated notes!')
+      );
+    }
+  })
   res.json(notesData)
 });
+
+
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
