@@ -4,8 +4,8 @@ const notesData = require('./db/db.json');
 const fs = require('fs');
 const uuid = require('./helpers/uuid'); // Helper method for generating unique ids
 
-const PORT = process.env.PORT || 5000;
-const host = '0.0.0.0';
+const PORT = process.env.PORT || 3000;
+// const host = '0.0.0.0';
 
 const app = express();
 
@@ -94,6 +94,6 @@ app.delete('/api/notes/:id', (req, res) => {
 
 });
 
-app.listen(PORT, host, () => {
+app.listen(PORT, () => {
   console.log(`Notes app listening at http://localhost:${PORT}`);
 });
