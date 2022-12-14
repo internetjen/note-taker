@@ -1,1 +1,12 @@
-[{"title":"Note 1 Title","text":"Note 1 text"},{"title":"Note 2 Title","text":"Note 2 text"},{"title":"kjahwifjhdsjf","text":"dfjhadfjkdgsfsfdgsdfg","note_id":"4c55"},{"title":"NOTE TITLE WOW","text":"is this real??????","note_id":"d7b0"}]
+[
+    {
+        "title": "Work",
+        "text": "- Project\n- Things\n- Some other stuff",
+        "note_id": "005e"
+    },
+    {
+        "title": "Study",
+        "text": "- homework\n- practice coding",
+        "note_id": "e076"
+    }
+]
