@@ -29,7 +29,6 @@ app.get('/api/notes', (req, res) => res.json(notesData));
 
 // POST request to add a note
 app.post('/api/notes', (req, res) => {
-  // const noteDataString = JSON.stringify(req.body);
   // Destructuring assignment for the items in req.body
   const { title, text } = req.body;
 
@@ -39,7 +38,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      note_id: uuid(),
+      id: uuid(),
     };
 
     // Obtain existing notes
@@ -54,13 +53,10 @@ app.post('/api/notes', (req, res) => {
         parsedNotes.push(newNote);
 
         // Write updated notes back to the file
-        fs.writeFile(
-          './db/db.json',
-          JSON.stringify(parsedNotes),
-          (writeErr) =>
-            writeErr
-              ? console.error(writeErr)
-              : console.info('Successfully updated notes!')
+        fs.writeFile('./db/db.json', JSON.stringify(parsedNotes),(writeErr) =>
+          writeErr
+            ? console.error(writeErr)
+            : console.info('Successfully updated notes!')
         );
       }
     });
@@ -73,8 +69,28 @@ app.post('/api/notes', (req, res) => {
     console.log(response);
     res.status(201).json(response);
   } else {
-    res.status(500).json('Error in posting review');
+    res.status(500).json('Error posting note!');
   }
+});
+
+// DELETE request to delete a note
+app.delete('/api/notes/:id', (req, res) => {
+
+  const requestID = req.params.id;
+  console.log(requestID);
+
+  let note = notesData.filter(note => {
+      return note.id === requestID;
+  })[0];
+
+  console.log(note);
+  const index = notesData.indexOf(note);
+
+  notesData.splice(index, 1);
+
+  fs.writeFile('./db/db.json', JSON.stringify(notesData), 'utf8');
+  res.json("Note deleted");
+
 });
 
 app.listen(PORT, () => {
